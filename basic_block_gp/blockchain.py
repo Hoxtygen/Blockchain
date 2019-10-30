@@ -92,8 +92,11 @@ class Blockchain(object):
         in an effort to find a number that is a valid proof
         :return: A valid proof for the provided block
         """
-        # TODO
-        pass
+        block_string = json.dumps(self.last_block, sort_keys=True).encode()
+        proof = 0
+        while self.valid_proof(block_string, proof) is False:
+            proof += 1
+        return proof
         # return proof
 
     @staticmethod
@@ -109,7 +112,9 @@ class Blockchain(object):
         :return: True if the resulting hash is a valid proof, False otherwise
         """
         # TODO
-        pass
+        guess_string = f'{block_string}{proof}'.encode()
+        guess_hash = hashlib.sha256(guess).hexdigest()
+        return guess_hash[:3] == "000"
         # return True or False
 
 
